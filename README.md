@@ -1,9 +1,5 @@
 # TravelMate
 
-Berikut adalah contoh file **README.md** dalam bahasa Indonesia yang bisa Anda gunakan untuk proyek **TravelMate**. File ini akan memberikan panduan lengkap untuk tim Anda agar dapat meng-clone dan mengatur proyek dengan mudah.
-
-### Contoh **README.md** dalam Bahasa Indonesia
-
 ````markdown
 # Capstone Project DBS
 
