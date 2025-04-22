@@ -19,7 +19,7 @@ Untuk mengatur proyek ini di mesin lokal Anda, ikuti langkah-langkah berikut:
 Clone repositori ke mesin lokal menggunakan perintah berikut:
 
 ```bash
-git clone https://github.com/your-username/Capstone-Project-DBS.git
+git clone https://github.com/riskiananda90/TravelMate.git
 ```
 
 ### 2. Masuk ke Direktori Proyek
