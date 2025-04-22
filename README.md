@@ -1,6 +1,5 @@
-# TravelMate
+# 🗺️TravelMate
 
-````markdown
 # Capstone Project DBS
 
 Ini adalah proyek full-stack yang melibatkan **frontend** yang dikembangkan dengan **React**, **backend** yang diimplementasikan dengan **Node.js**, dan beberapa fungsionalitas **machine learning**.
@@ -24,7 +23,6 @@ Clone repositori ke mesin lokal menggunakan perintah berikut:
 ```bash
 git clone https://github.com/your-username/Capstone-Project-DBS.git
 ```
-````
 
 ### 2. Masuk ke Direktori Proyek
 
@@ -118,11 +116,11 @@ Capstone-Project-DBS/
 
 ## Kontributor
 
-- <img src="https://avatars.githubusercontent.com/u/112327133?v=4" width="30" height="30" style="border-radius: 50%;"> **Muhammad Rizki** - Machine Learning
-- <img src="https://avatars.githubusercontent.com/u/181300290?v=4" width="30" height="30" style="border-radius: 50%;"> **Najwa Mutiah yasmine** - Front-End & Back-End
-- <img src="https://avatars.githubusercontent.com/u/112511554?v=4" width="30" height="30" style="border-radius: 50%;"> **Sri Mutia** - Machine Learning
-- <img src="https://avatars.githubusercontent.com/u/112487598?v=4" width="30" height="30" style="border-radius: 50%;"> **Teuku Aldie Aulia** - Front-End & Back-End
-- <img src="https://avatars.githubusercontent.com/u/112398559?s=400&u=f567b90da41ebf745f341badb5aa8a24568d5f90&v=4" width="30" height="30" style="border-radius: 50%;"> **Riski Ananda** - Machine Learning
+- <img src="https://avatars.githubusercontent.com/u/112327133?v=4" width="30" height="30" style="border-radius: 50%; object-fit: cover;"> **Muhammad Rizki** - Machine Learning
+- <img src="https://avatars.githubusercontent.com/u/181300290?v=4" width="30" height="30" style="border-radius: 50%; object-fit: cover;"> **Najwa Mutiah yasmine** - Front-End & Back-End
+- <img src="https://avatars.githubusercontent.com/u/112511554?v=4" width="30" height="30" style="border-radius: 50%; object-fit: cover;"> **Sri Mutia** - Machine Learning
+- <img src="https://avatars.githubusercontent.com/u/112487598?v=4" width="30" height="30" style="border-radius: 50%; object-fit: cover;"> **Teuku Aldie Aulia** - Front-End & Back-End
+- <img src="https://avatars.githubusercontent.com/u/112398559?s=400&u=f567b90da41ebf745f341badb5aa8a24568d5f90&v=4" width="30" height="30" style="border-radius: 50%; object-fit: cover;"> **Riski Ananda** - Machine Learning
 
 ### Penjelasan:
 
