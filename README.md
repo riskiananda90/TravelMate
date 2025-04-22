@@ -1,7 +1,5 @@
 # 🗺️TravelMate
 
-# Capstone Project DBS
-
 Ini adalah proyek full-stack yang melibatkan **frontend** yang dikembangkan dengan **React**, **backend** yang diimplementasikan dengan **Node.js**, dan beberapa fungsionalitas **machine learning**.
 
 ## Daftar Isi
