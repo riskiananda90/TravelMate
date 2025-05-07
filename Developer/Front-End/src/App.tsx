@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,6 +16,8 @@ import Checkout from "./pages/Checkout";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { WishlistProvider } from "./context/WishlistContext";
 import { CartProvider } from "./context/CartContext";
+import About from "./pages/About";
+import { Contact } from "lucide-react";
 
 const queryClient = new QueryClient();
 
@@ -39,7 +40,10 @@ const App = () => (
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/booking/:id" element={<Booking />} />
                 <Route path="/checkout" element={<Checkout />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="/about" element={<About />} />
+                <Route path="/DetailDestinasi" element={<DetailDestinasi />} />
+                <Route path="/contact" element={<Contact />} />
+
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
