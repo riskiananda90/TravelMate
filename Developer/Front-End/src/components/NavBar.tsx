@@ -1,16 +1,15 @@
-
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Menu, Sun, Moon, MapPin, Heart, ShoppingCart } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Switch } from '@/components/ui/switch';
-import { ThemeToggle } from './ThemeToggle';
-import { useTheme } from './ThemeProvider';
-import { UserLocation } from '@/types';
-import { Badge } from '@/components/ui/badge';
-import { useCart } from '@/context/CartContext';
-import { useWishlist } from '@/context/WishlistContext';
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Menu, Sun, Moon, MapPin, Heart, ShoppingCart } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Switch } from "@/components/ui/switch";
+import { ThemeToggle } from "./ThemeToggle";
+import { useTheme } from "./ThemeProvider";
+import { UserLocation } from "@/types";
+import { Badge } from "@/components/ui/badge";
+import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 
 interface NavBarProps {
   userLocation?: UserLocation;
@@ -21,11 +20,11 @@ const NavBar = ({ userLocation }: NavBarProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
-  
+
   // Get wishlist and cart state
   const { wishlist } = useWishlist();
   const { bookings } = useCart();
-  
+
   const handleScroll = () => {
     const offset = window.scrollY;
     if (offset > 50) {
@@ -34,39 +33,43 @@ const NavBar = ({ userLocation }: NavBarProps) => {
       setIsScrolled(false);
     }
   };
-  
+
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  
-  const navLinkStyles = 'text-travel-700 hover:text-travel-900 dark:text-travel-300 dark:hover:text-white cursor-pointer transition-colors';
-  
+
+  const navLinkStyles =
+    "text-travel-700 hover:text-travel-900 dark:text-travel-300 dark:hover:text-white cursor-pointer transition-colors";
+
   const navLinks = [
-    { name: 'Beranda', path: '/' },
-    { name: 'Destinasi', path: '/#destinations' },
-    { name: 'Tentang', path: '/about' },
-    { name: 'Kontak', path: '/contact' },
+    { name: "Beranda", path: "/" },
+    { name: "Destinasi", path: "/DetailDestinasi" },
+    { name: "Tentang", path: "/about" },
+    { name: "Kontak", path: "/contact" },
   ];
-  
+
   return (
-    <header 
+    <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 dark:bg-slate-900/95 shadow-md backdrop-blur-sm border-b border-travel-100 dark:border-slate-800' 
-          : 'bg-transparent'
+        isScrolled
+          ? "bg-white/95 dark:bg-slate-900/95 shadow-md backdrop-blur-sm border-b border-travel-100 dark:border-slate-800"
+          : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
         <div className="flex items-center">
-          <Link to="/" className="font-bold text-2xl text-travel-800 dark:text-travel-100 flex items-center gap-2">
+          <Link
+            to="/"
+            className="font-bold text-2xl text-travel-800 dark:text-travel-100 flex items-center gap-2"
+          >
             <span className="text-yogya-500">Travel</span>
             <span>Mate</span>
           </Link>
         </div>
-        
+
         {/* Desktop navigation */}
         <nav className="hidden md:flex items-center space-x-10">
           {navLinks.map((link) => (
@@ -81,15 +84,15 @@ const NavBar = ({ userLocation }: NavBarProps) => {
             <div className="hidden md:flex items-center mr-2">
               <MapPin className="h-4 w-4 text-travel-500 mr-1" />
               <span className="text-sm text-travel-600 dark:text-travel-400">
-                {userLocation.alamat?.split(',')[0] || 'Lokasi Terdeteksi'}
+                {userLocation.alamat?.split(",")[0] || "Lokasi Terdeteksi"}
               </span>
             </div>
           )}
-          
+
           <div className="hidden md:flex items-center gap-2">
             <Link to="/wishlist" className="relative">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 size="icon"
                 className="text-travel-700 hover:text-travel-900 dark:text-travel-300 dark:hover:text-white"
               >
@@ -101,10 +104,10 @@ const NavBar = ({ userLocation }: NavBarProps) => {
                 </Badge>
               )}
             </Link>
-            
+
             <Link to="/checkout" className="relative">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 size="icon"
                 className="text-travel-700 hover:text-travel-900 dark:text-travel-300 dark:hover:text-white"
               >
@@ -117,7 +120,7 @@ const NavBar = ({ userLocation }: NavBarProps) => {
               )}
             </Link>
           </div>
-          
+
           <ThemeToggle />
 
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
@@ -126,38 +129,44 @@ const NavBar = ({ userLocation }: NavBarProps) => {
                 <Menu className="h-6 w-6 text-travel-700 dark:text-travel-300" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-white dark:bg-slate-900 border-l border-travel-100 dark:border-slate-800">
+            <SheetContent
+              side="right"
+              className="bg-white dark:bg-slate-900 border-l border-travel-100 dark:border-slate-800"
+            >
               <div className="flex flex-col h-full">
                 <div className="space-y-4 py-4">
                   <div className="flex items-center justify-between mb-6">
-                    <Link to="/" className="font-bold text-xl text-travel-800 dark:text-travel-100">
+                    <Link
+                      to="/"
+                      className="font-bold text-xl text-travel-800 dark:text-travel-100"
+                    >
                       <span className="text-yogya-500">Travel</span>
                       <span>Mate</span>
                     </Link>
                     <div className="flex items-center">
-                      {theme === 'dark' ? (
+                      {theme === "dark" ? (
                         <Moon className="h-4 w-4 text-travel-300" />
                       ) : (
                         <Sun className="h-4 w-4 text-travel-700" />
                       )}
                       <span className="mx-2 text-sm text-travel-500">
-                        {theme === 'dark' ? 'Dark' : 'Light'}
+                        {theme === "dark" ? "Dark" : "Light"}
                       </span>
                       <Switch
-                        checked={theme === 'dark'}
+                        checked={theme === "dark"}
                         onCheckedChange={(checked) => {
                           if (checked) {
-                            document.documentElement.classList.add('dark');
-                            localStorage.setItem('theme', 'dark');
+                            document.documentElement.classList.add("dark");
+                            localStorage.setItem("theme", "dark");
                           } else {
-                            document.documentElement.classList.remove('dark');
-                            localStorage.setItem('theme', 'light');
+                            document.documentElement.classList.remove("dark");
+                            localStorage.setItem("theme", "light");
                           }
                         }}
                       />
                     </div>
                   </div>
-                  
+
                   <nav className="flex flex-col space-y-4">
                     {navLinks.map((link) => (
                       <Link
@@ -169,7 +178,7 @@ const NavBar = ({ userLocation }: NavBarProps) => {
                         {link.name}
                       </Link>
                     ))}
-                    
+
                     <div className="pt-4 mt-4 border-t border-travel-100 dark:border-slate-800">
                       <Link
                         to="/wishlist"
@@ -179,11 +188,13 @@ const NavBar = ({ userLocation }: NavBarProps) => {
                         <Heart className="h-5 w-5 mr-2" />
                         Wishlist
                         {wishlist.length > 0 && (
-                          <Badge className="ml-2 bg-red-500 text-white">{wishlist.length}</Badge>
+                          <Badge className="ml-2 bg-red-500 text-white">
+                            {wishlist.length}
+                          </Badge>
                         )}
                       </Link>
                     </div>
-                    
+
                     <div>
                       <Link
                         to="/checkout"
@@ -193,28 +204,30 @@ const NavBar = ({ userLocation }: NavBarProps) => {
                         <ShoppingCart className="h-5 w-5 mr-2" />
                         Keranjang
                         {bookings.length > 0 && (
-                          <Badge className="ml-2 bg-green-500 text-white">{bookings.length}</Badge>
+                          <Badge className="ml-2 bg-green-500 text-white">
+                            {bookings.length}
+                          </Badge>
                         )}
                       </Link>
                     </div>
                   </nav>
                 </div>
-                
+
                 <div className="mt-auto pt-4 border-t border-travel-100 dark:border-slate-800">
                   <div className="flex justify-center gap-4">
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       onClick={() => {
-                        navigate('/login');
+                        navigate("/login");
                         setMenuOpen(false);
                       }}
                       className="border-travel-200 dark:border-slate-700 text-travel-700 dark:text-travel-300"
                     >
                       Masuk
                     </Button>
-                    <Button 
+                    <Button
                       onClick={() => {
-                        navigate('/register');
+                        navigate("/register");
                         setMenuOpen(false);
                       }}
                       className="bg-yogya-500 hover:bg-yogya-600 text-white"
@@ -222,11 +235,14 @@ const NavBar = ({ userLocation }: NavBarProps) => {
                       Daftar
                     </Button>
                   </div>
-                  
+
                   {userLocation?.loaded && !userLocation?.error && (
                     <div className="flex items-center justify-center mt-4 text-sm text-travel-600 dark:text-travel-400">
                       <MapPin className="h-4 w-4 mr-1" />
-                      <span>{userLocation.alamat?.split(',')[0] || 'Lokasi Terdeteksi'}</span>
+                      <span>
+                        {userLocation.alamat?.split(",")[0] ||
+                          "Lokasi Terdeteksi"}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -235,15 +251,15 @@ const NavBar = ({ userLocation }: NavBarProps) => {
           </Sheet>
 
           <div className="hidden md:flex items-center ml-4 space-x-2">
-            <Button 
-              variant="outline" 
-              onClick={() => navigate('/login')}
+            <Button
+              variant="outline"
+              onClick={() => navigate("/login")}
               className="border-travel-200 dark:border-slate-700 text-travel-700 dark:text-travel-300"
             >
               Masuk
             </Button>
-            <Button 
-              onClick={() => navigate('/register')}
+            <Button
+              onClick={() => navigate("/register")}
               className="bg-yogya-500 hover:bg-yogya-600 text-white"
             >
               Daftar
@@ -256,4 +272,3 @@ const NavBar = ({ userLocation }: NavBarProps) => {
 };
 
 export default NavBar;
-
