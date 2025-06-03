@@ -9,7 +9,7 @@ import KartuDestinasi from '@/components/KartuDestinasi';
 import LocationPermissionModal from '@/components/LocationPermissionModal';
 import FilterPanel from '@/components/FilterPanel';
 import HeroSection from '@/components/HeroSection';
-import FeaturedDestinations from '@/components/FeaturedDestinations';
+import {FeaturedDestinations} from '@/components/FeaturedDestinations';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
@@ -24,6 +24,9 @@ const Index = () => {
   const [destinasiTerfilter, setDestinasiTerfilter] = useState<TujuanWisata[]>([]);
   const [filterAnggaran, setFilterAnggaran] = useState<FilterAnggaran>({ min: 0, max: 1000000 });
   const [filterJarak, setFilterJarak] = useState<FilterJarak>({ jarakMaksimum: 50 });
+
+  const [selectedHeroCategory, setSelectedHeroCategory] = useState<string | null>(null);
+  const featuredDestinationsSectionId = "featured-destinations-section";
 
   useEffect(() => {
     // Jika lokasi dimuat, periksa apakah kita memiliki izin
@@ -105,7 +108,10 @@ const Index = () => {
       description: `Menampilkan destinasi dalam radius ${jarakMaksimum}km dan rentang anggaran ${formatRupiah(anggaran.min)} - ${formatRupiah(anggaran.max)}.`,
     });
   };
-
+    const handleHeroCategorySelect = (category: string | null) => {
+        setSelectedHeroCategory(category);
+        document.getElementById(featuredDestinationsSectionId)?.scrollIntoView({ behavior: "smooth" });
+      };
   const handlePermissionGranted = () => {
     setShowPermissionModal(false);
     toast({
@@ -149,11 +155,16 @@ const Index = () => {
       <NavBar userLocation={location} />
       
       <main className="flex-grow">
-        <HeroSection />
+        <HeroSection
+          onSelectCategory={handleHeroCategorySelect}
+          currentSelectedCategory={selectedHeroCategory} />
         
-        <FeaturedDestinations />
+        <FeaturedDestinations
+          selectedCategory={selectedHeroCategory}
+          id={featuredDestinationsSectionId}
+          onSelectCategory={handleHeroCategorySelect} />
         
-        <section id="destinations" className="py-16">
+        <section id="destinasi" className="py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -167,7 +178,7 @@ const Index = () => {
             </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-              {/* Sidebar dengan filter */}
+              {/* Sidebar dngan filter */}
               <motion.div 
                 className="md:col-span-3 space-y-4"
                 initial={{ opacity: 0, x: -20 }}
