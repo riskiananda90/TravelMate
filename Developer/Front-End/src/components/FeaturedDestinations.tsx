@@ -597,7 +597,7 @@ export const FeaturedDestinations = ({ selectedCategory, id, onSelectCategory }:
             transition={{ duration: 0.8 }}
           >
             <div className="relative">
-              <Link to="/#destinations" onClick={() => document.getElementById("destinasi")?.scrollIntoView({behavior: "smooth"})}>
+              <Link to="/alldestination">
                 <Button className="bg-gradient-to-r from-travel-500 to-yogya-500 text-white group px-6 py-3 text-base">
                   <Trees size={18} className="mr-2" />
                   Lihat Semua Destinasi Utama

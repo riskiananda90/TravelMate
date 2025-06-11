@@ -17,7 +17,8 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import { WishlistProvider } from "./context/WishlistContext";
 import { CartProvider } from "./context/CartContext";
 import About from "./pages/About";
-import { Contact } from "lucide-react";
+import FilterPanel from "./pages/AllDestination";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
                 <Route path="/about" element={<About />} />
                 <Route path="/DetailDestinasi" element={<DetailDestinasi />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/alldestination" element={<FilterPanel />} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>

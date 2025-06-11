@@ -406,9 +406,6 @@ const DetailDestinasi = () => {
               >
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl font-bold text-travel-800 dark:text-travel-100">Galeri Foto</h2>
-                  <Button variant="outline" className="text-travel-700 dark:text-travel-300 border-travel-200 dark:border-travel-700">
-                    <span className="mr-1">Lihat Semua</span>
-                  </Button>
                 </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -603,14 +600,7 @@ const DetailDestinasi = () => {
                       </div>
                     ))}
                 </div>
-                
-                <Button 
-                  variant="ghost" 
-                  className="w-full mt-3 text-travel-600 dark:text-travel-400 hover:text-travel-800 dark:hover:text-travel-100"
-                  onClick={() => navigate('/')}
-                >
-                  Lihat Semua
-                </Button>
+        
               </motion.div>
             </div>
           </div>

@@ -46,7 +46,6 @@ const NavBar = ({ userLocation }: NavBarProps) => {
 
   const navLinks = [
     { name: "Beranda", path: "/" },
-    { name: "Destinasi", path: "/DetailDestinasi" },
     { name: "Tentang", path: "/about" },
     { name: "Kontak", path: "/contact" },
   ];
