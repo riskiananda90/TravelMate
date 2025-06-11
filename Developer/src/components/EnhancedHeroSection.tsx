@@ -1,183 +1,231 @@
-
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Map, Search, Wind } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
-import { Badge } from "@/components/ui/badge";
-import { toast } from "@/hooks/use-toast";
+import { ArrowDown, Map, Search, Compass, Trees, Mountain } from "lucide-react";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react"; // Removed 'useRef' as it's not used directly for this logic
 
 const backgroundImages = [
-  "/borobudur.jpg", 
+  "/borobudur.jpg",
   "/prambanan.jpg",
-  "/parangtritis.jpg", 
+  "/parangtritis.jpg",
   "/tamansari.jpg"
 ];
 
-const EnhancedHeroSection = () => {
+const categories = ["Adventure", "Nature", "Culture", "Beach", "Mountains", "Temples", "Forests", "Rivers"];
+
+interface HeroSectionProps {
+  onSelectCategory: (category: string | null) => void;
+  currentSelectedCategory: string | null;
+}
+
+const EnhancedHeroSection = ({ onSelectCategory, currentSelectedCategory }: HeroSectionProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: scrollRef,
-    offset: ["start start", "end start"]
-  });
-  
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  
-  const tagOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  
+  const [scrollPosition, setScrollPosition] = useState(0);
+  // Removed setSelectedCategory local state, as it's now managed by parent
+
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
+      setCurrentImageIndex((prevIndex) =>
         prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
       );
     }, 5000);
-    
     return () => clearInterval(timer);
   }, []);
-  
+
   useEffect(() => {
     setIsVisible(true);
+    const handleScroll = () => setScrollPosition(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  
+
   const scrollToDestinations = () => {
-    document.getElementById('destinations')?.scrollIntoView({ behavior: 'smooth' });
+    // This ID should match the ID given to the FeaturedDestinations section
+    document.getElementById("destinations-section")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const toggleWeather = () => {
-    toast({
-      title: "Weather Information",
-      description: "Current weather in Yogyakarta: Sunny, 30°C",
-    });
+  const scrollToLocation = () => {
+    // This ID should match the ID given to the FeaturedDestinations section
+    document.getElementById("destinasi")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleCategoryClick = (category: string) => {
+    // If the same category is clicked again, deselect it (optional behavior)
+    const newCategory = currentSelectedCategory === category ? null : category;
+    onSelectCategory(newCategory); // This will also trigger scroll in parent
   };
 
   return (
-    <div ref={scrollRef} className="relative h-[100vh] overflow-hidden">
+    <div className="relative">
+      {/* Parallax background layers */}
       <div className="absolute inset-0 overflow-hidden">
-        <motion.div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url(${backgroundImages[currentImageIndex]})`,
-            y: backgroundY,
-          }}
+        <motion.div
+          className="absolute bottom-0 w-full"
+          style={{ y: scrollPosition * 0.2, zIndex: 1 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-travel-800/40 to-yogya-800/40"></div>
+          <img
+            src="/additional/mountains.png"
+            alt="Mountains"
+            className="w-full h-[40vh] object-cover object-bottom opacity-40"
+            style={{
+              maskImage: "linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))",
+              WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))"
+            }}
+          />
         </motion.div>
-        
-        <motion.div 
-          className="relative h-full flex flex-col items-center justify-center text-center px-4"
-          style={{ opacity, y: textY }}
+        <motion.div
+          className="absolute bottom-0 w-full"
+          style={{ y: scrollPosition * 0.1, zIndex: 2 }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 50 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="max-w-3xl"
-          >
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight"
-            >
-              <span className="block">Jelajahi</span>
-              <span className="text-gradient bg-gradient-to-r from-yogya-300 to-travel-300 bg-clip-text text-transparent">Yogyakarta</span>
-              <span className="block">Sesuai Budget</span>
-            </motion.h1>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="text-xl text-white/90 mb-12 max-w-2xl mx-auto"
-            >
-              Temukan destinasi impian yang sesuai dengan anggaran dan preferensi perjalanan Anda
-            </motion.p>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-              transition={{ duration: 0.8, delay: 1 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
-            >
-              <Button 
-                onClick={scrollToDestinations}
-                className="bg-travel-500 hover:bg-travel-600 text-white group px-6 py-6 text-lg"
-                size="lg"
-              >
-                <Search size={20} className="mr-2" />
-                Explore Destinations
-                <ArrowDown size={18} className="ml-2 transition-transform group-hover:translate-y-1" />
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="border-2 border-white text-white hover:bg-white/10 group px-6 py-6 text-lg"
-              >
-                <Map size={20} className="mr-2" />
-                Browse Map
-              </Button>
-            </motion.div>
-          </motion.div>
+          <img
+            src="/additional/trees.png"
+            alt="Trees"
+            className="w-full h-[35vh] object-cover object-bottom opacity-50"
+            style={{
+              maskImage: "linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))",
+              WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))"
+            }}
+          />
         </motion.div>
-        
-        {/* Interactive Weather Button */}
-        <motion.div 
-          className="absolute top-10 right-10"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.8 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
-        >
-          <Button 
-            onClick={toggleWeather}
-            size="sm"
-            className="bg-white/20 backdrop-blur-md hover:bg-white/30 text-white rounded-full flex items-center gap-2 px-4"
-          >
-            <Wind size={16} className="animate-pulse" />
-            <span>30°C</span>
-          </Button>
-        </motion.div>
-        
-        {/* Animated scroll indicator */}
-        <motion.div 
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-        >
-          <Button 
-            onClick={scrollToDestinations}
-            variant="ghost" 
-            size="icon"
-            className="rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 border border-white/10 shadow-glow"
-          >
-            <ArrowDown className="h-5 w-5" />
-          </Button>
-        </motion.div>
+      </div>
 
-        {/* Destination Tags - modified to fade out on scroll */}
-        <motion.div 
-          className="absolute bottom-20 left-0 right-0 flex justify-center overflow-hidden"
-          style={{ opacity: tagOpacity }}
-        >
-          <div className="flex space-x-2 overflow-x-auto pb-2 no-scrollbar">
-            {["Adventure", "Culture", "Beach", "Mountains", "Temples", "Cuisine", "Art", "History"].map((tag, i) => (
+      {/* Hero section */}
+      <div
+        className="h-[80vh] md:h-[90vh] bg-cover bg-center flex items-center justify-center overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url(${backgroundImages[currentImageIndex]})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          transition: "background-image 1s ease-in-out"
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-travel-800/40 to-yogya-800/40 z-10"></div>
+
+        <div className="text-center px-4 max-w-3xl mx-auto z-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Mountain size={32} className="text-white/80 animate-bounce" />
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 text-shadow-lg">
+                Explore <span className="text-yogya-400">Yogyakarta</span> On Your Budget
+              </h1>
+              <Trees size={32} className="text-white/80 animate-bounce delay-75" />
+            </div>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl text-white/90 mb-8 max-w-2xl mx-auto text-shadow"
+          >
+            Discover the perfect destinations that match your budget and preferences
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Button onClick={scrollToLocation} className="bg-travel-500 hover:bg-travel-600 text-white group" size="lg">
+              <Search size={18} className="mr-2" />
+              Explore Destinations
+              <ArrowDown size={16} className="ml-2 transition-transform group-hover:translate-y-1" />
+            </Button>
+
+            <Button variant="outline" size="lg" onClick={() =>
+                window.open(
+                  'https://maps.google.com/maps?q=-7.797068,110.370529',
+                  '_blank'
+                )
+                  } className="border-white text-white hover:bg-white/10 group">
+              <Map size={18} className="mr-2" />
+              Browse Map
+            </Button>
+          </motion.div>
+
+          {/* Category tags */}
+          {/* <div className="mt-12 flex flex-wrap justify-center gap-3">
+            {categories.map((category, i) => (
               <motion.div
-                key={tag}
+                key={category}
                 initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 1.5 + i * 0.1 }}
-                whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
+                animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.8 }}
+                transition={{ duration: 0.5, delay: 0.8 + i * 0.1 }}
               >
-                <Badge className="bg-white/10 text-white backdrop-blur-sm px-3 py-1.5 border border-white/10 hover:bg-white/20 cursor-pointer">
-                  #{tag}
-                </Badge>
+                <button
+                  onClick={() => handleCategoryClick(category)} // Updated onClick
+                  className={`py-1.5 px-3 text-xs rounded-full font-medium backdrop-blur-sm transition
+                    ${currentSelectedCategory === category // Use prop for styling
+                      ? "bg-white/80 text-gray-900 ring-2 ring-yogya-400" // Added ring for better visibility
+                      : "bg-white/20 text-white hover:bg-white/30"}
+                  `}
+                >
+                  {category}
+                </button>
               </motion.div>
             ))}
-          </div>
-        </motion.div>
+          </div> */}
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      { <motion.div
+        className="absolute bottom-5 left-1/2 transform -translate-x-1/2"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ repeat: Infinity, duration: 2 }}
+      >
+        <Button
+          onClick={scrollToLocation}
+          variant="ghost"
+          size="icon"
+          className="rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30"
+        >
+          <ArrowDown className="h-5 w-5" />
+        </Button>
+      </motion.div> }
+
+      {/* Compass */}
+      <motion.div
+        className="absolute top-8 right-8 hidden md:flex items-center gap-2 text-white"
+        initial={{ opacity: 0, rotate: -45 }}
+        animate={{ opacity: isVisible ? 1 : 0, rotate: 0 }}
+        transition={{ duration: 0.8, delay: 1 }}
+      >
+        <Compass size={24} className="animate-pulse-slow" />
+        <span className="text-sm font-medium">Yogyakarta, Indonesia</span>
+      </motion.div>
+
+      {/* Floating trees animation */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(10)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-white/20"
+            initial={{
+              x: Math.random() * 100 + "%",
+              y: -20,
+              rotate: Math.random() * 360
+            }}
+            animate={{
+              y: "100vh",
+              rotate: Math.random() * 720
+            }}
+            transition={{
+              duration: 15 + Math.random() * 15,
+              repeat: Infinity,
+              ease: "linear",
+              delay: Math.random() * 20
+            }}
+            style={{ left: `${Math.random() * 100}%` }}
+          >
+            <Trees size={Math.random() * 20 + 10} />
+          </motion.div>
+        ))}
       </div>
     </div>
   );

@@ -28,6 +28,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import EmailSent from "./pages/EmailSent";
 import EmailConfirmation from "./pages/EmailConfirmation";
 import KonfirmasiEmail from "./pages/KomfirmasiEmail";
+import FilterPanel from "./pages/AllDestination";
+
 
 const queryClient = new QueryClient();
 
@@ -56,6 +58,14 @@ const AnimatedRoutes = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/email-confirmation" element={<KonfirmasiEmail />} />
+          <Route
+            path="/alldestination"
+            element={
+              <ProtectedRoute>
+                <FilterPanel />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/destinasi"
             element={

@@ -7,13 +7,15 @@ import NavBar from '@/components/NavBar';
 import KartuDestinasi from '@/components/KartuDestinasi';
 import LocationPermissionModal from '@/components/LocationPermissionModal';
 import FilterPanel from '@/components/FilterPanel';
-import EnhancedHeroSection from '@/components/EnhancedHeroSection';
-import FeaturedDestinations from '@/components/FeaturedDestinations';
+import HeroSection from '@/components/HeroSection';
+import {FeaturedDestinations} from '@/components/FeaturedDestinations';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
 import { Link } from "react-router-dom";
+import EnhancedHeroSection from '@/components/EnhancedHeroSection';
+;
 
 const Index = () => {
   const location = useLocation();
@@ -22,6 +24,9 @@ const Index = () => {
   const [destinasiTerfilter, setDestinasiTerfilter] = useState<TujuanWisata[]>([]);
   const [filterAnggaran, setFilterAnggaran] = useState<FilterAnggaran>({ min: 0, max: 1000000 });
   const [filterJarak, setFilterJarak] = useState<FilterJarak>({ jarakMaksimum: 50 });
+
+  const [selectedHeroCategory, setSelectedHeroCategory] = useState<string | null>(null);
+  const featuredDestinationsSectionId = "featured-destinations-section";
 
   useEffect(() => {
     // Jika lokasi dimuat, periksa apakah kita memiliki izin
@@ -103,7 +108,10 @@ const Index = () => {
       description: `Menampilkan destinasi dalam radius ${jarakMaksimum}km dan rentang anggaran ${formatRupiah(anggaran.min)} - ${formatRupiah(anggaran.max)}.`,
     });
   };
-
+    const handleHeroCategorySelect = (category: string | null) => {
+        setSelectedHeroCategory(category);
+        document.getElementById(featuredDestinationsSectionId)?.scrollIntoView({ behavior: "smooth" });
+      };
   const handlePermissionGranted = () => {
     setShowPermissionModal(false);
     toast({
@@ -147,12 +155,17 @@ const Index = () => {
       <NavBar userLocation={location} />
       
       <main className="flex-grow">
-        <EnhancedHeroSection />
+        <EnhancedHeroSection
+          onSelectCategory={handleHeroCategorySelect}
+          currentSelectedCategory={selectedHeroCategory} />
         
-        <FeaturedDestinations />
+        <FeaturedDestinations
+          selectedCategory={selectedHeroCategory}
+          id={featuredDestinationsSectionId}
+          onSelectCategory={handleHeroCategorySelect} />
         
-        <section id="destinations" className="py-16 relative overflow-hidden">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <section id="destinasi" className="py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -165,7 +178,7 @@ const Index = () => {
             </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-              {/* Sidebar dengan filter */}
+              {/* Sidebar dngan filter */}
               <motion.div 
                 className="md:col-span-3 space-y-4"
                 initial={{ opacity: 0, x: -20 }}
@@ -173,16 +186,14 @@ const Index = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <div className="glass-card p-5">
-                  <FilterPanel onFilterChange={handleFilterChange} />
-                  <Button 
-                    variant="outline" 
-                    className="w-full mt-4 border-travel-300 text-travel-700 hover:bg-travel-50 dark:border-slate-600 dark:text-travel-300 dark:hover:bg-slate-800" 
-                    onClick={resetFilter}
-                  >
-                    Reset Filter
-                  </Button>
-                </div>
+                <FilterPanel onFilterChange={handleFilterChange} />
+                <Button 
+                  variant="outline" 
+                  className="w-full border-travel-300 text-travel-700 hover:bg-travel-50 dark:border-slate-600 dark:text-travel-300 dark:hover:bg-slate-800" 
+                  onClick={resetFilter}
+                >
+                  Reset Filter
+                </Button>
               </motion.div>
               
               {/* Grid destinasi */}
@@ -199,6 +210,8 @@ const Index = () => {
                       <p className="text-travel-600 dark:text-travel-400">
                         {destinasiTerfilter.length} destinasi ditemukan
                       </p>
+                      
+                      
                     </motion.div>
                     
                     {destinasiTerfilter.length > 0 ? (
@@ -210,9 +223,8 @@ const Index = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.1 * index }}
-                            className="premium-card"
                           >
-                            <Link to={`/destinasi/${destinasi.id}`} className="block h-full">
+                            <Link to={`/destinasi/${destinasi.id}`} className="block">
                               <KartuDestinasi destinasi={destinasi} />
                             </Link>
                           </motion.div>
