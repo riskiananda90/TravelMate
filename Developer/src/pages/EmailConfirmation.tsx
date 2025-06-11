@@ -20,37 +20,32 @@ const EmailConfirmation = () => {
                 variant: "destructive",
             });
         }
-    }, 10000); // Tunggu 10 detik
+    }, 10000); 
 
     // Dengarkan perubahan status otentikasi
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-        // Event 'SIGNED_IN' terpicu saat verifikasi email berhasil DAN sesi dibuat
         if (event === 'SIGNED_IN') {
-            clearTimeout(fallbackTimeout); // Hentikan timeout jika berhasil
+            clearTimeout(fallbackTimeout); 
             setConfirmationStatus('success');
             toast({
                 title: "Berhasil!",
                 description: "Email berhasil dikonfirmasi. Anda akan diarahkan...",
             });
 
-            // Redirect ke halaman dashboard atau beranda setelah 3 detik
             setTimeout(() => {
-                navigate('/'); // Arahkan ke beranda/dashboard
+                navigate('/'); 
             }, 3000);
-
-            // Berhenti mendengarkan setelah berhasil
             subscription.unsubscribe();
         }
     });
 
-    // Fungsi cleanup saat komponen unmount
+
     return () => {
         subscription.unsubscribe();
         clearTimeout(fallbackTimeout);
     };
-  }, [navigate, confirmationStatus]); // Tambahkan confirmationStatus sebagai dependensi
+  }, [navigate, confirmationStatus]);
 
-  // Tampilan "Loading"
   if (confirmationStatus === 'pending') {
     return (
       <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-muted">
@@ -71,7 +66,6 @@ const EmailConfirmation = () => {
     );
   }
 
-  // Tampilan "Success" atau "Error"
   return (
       <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-muted">
         <div className="relative flex-1 flex items-center justify-center px-4">

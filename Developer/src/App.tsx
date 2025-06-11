@@ -106,12 +106,10 @@ const AnimatedRoutes = () => {
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-
-  // Handle loading completion
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000); // Ensure loading screen shows for at least 2 seconds
+    }, 2000); 
 
     return () => clearTimeout(timer);
   }, []);
